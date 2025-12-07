@@ -15,16 +15,28 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        submodules: recursive
+        submodules: false # We will handle them manually to fix the issue
 
-    - name: Force Submodule Update
+    - name: Diagnose Git Index
       run: |
-        echo "Init submodules..."
-        git submodule update --init --recursive
-        echo "Sync submodules..."
-        git submodule sync --recursive
-        echo "Update submodules..."
-        git submodule update --remote --recursive
+        echo "Checking git index for submodules..."
+        git ls-tree HEAD
+        echo "Checking .gitmodules..."
+        cat .gitmodules
+
+    - name: Fix and Update Submodules
+      run: |
+        # Manually register the submodules based on .gitmodules
+        git submodule init
+        
+        # If fpc is missing from .git/config despite init, force add it
+        if ! git config --get submodule.fpc.url; then
+            echo "FPC submodule missing from config. Force adding..."
+            git submodule add --force https://gitlab.com/freepascal.org/fpc/source fpc
+        fi
+        
+        git submodule sync
+        git submodule update --init --recursive --force
 
     - name: Setup Python
       uses: actions/setup-python@v4
@@ -39,7 +51,7 @@ jobs:
         echo "Extracting..."
         unzip -q pas2js.zip -d compiler_dist
         
-        # Locate the binary recursively (handles variable root folder name in zip)
+        # Locate the binary recursively
         PAS2JS_PATH=$(find compiler_dist -name "pas2js" -type f | head -n 1)
         
         if [ -z "$PAS2JS_PATH" ]; then
