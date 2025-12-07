@@ -37,6 +37,11 @@ jobs:
         chmod +x "$PAS2JS_PATH"
         echo "PAS2JS_BIN=$PAS2JS_PATH" >> $GITHUB_ENV
 
+    - name: Debug File Structure
+      run: |
+        echo "Listing FPC submodule content..."
+        ls -R fpc/utils/pas2js || echo "fpc/utils/pas2js not found"
+
     - name: Build Project
       run: |
         chmod +x build.sh
