@@ -1,0 +1,49 @@
+name: Build WebCompiler
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Build WebCompiler
+      shell: powershell
+      run: |
+        # Ensure we can run the script
+        Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+        
+        # Run the build script
+        .\recompile.ps1
+
+    - name: Verify Output
+      shell: powershell
+      run: |
+        if (Test-Path "webcompiler/webcompiler.js") {
+            Write-Host "Build artifact found."
+        } else {
+            Write-Error "Build artifact webcompiler/webcompiler.js missing!"
+            exit 1
+        }
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: webcompiler-build
+        path: |
+          webcompiler/webcompiler.js
+          webcompiler/index.html
+          webcompiler/run.html
+          webcompiler/files.json
+          webcompiler/server.js
+          webcompiler/sources/

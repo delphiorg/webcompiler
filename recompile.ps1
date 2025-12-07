@@ -3,7 +3,7 @@ $sourcesDir = "$demoDir/sources"
 $filesJson = "$demoDir/files.json"
 $lprFile = "$demoDir/webcompiler.lpr"
 $binPath = "bin/pas2js.exe"
-$fpcPath = "compiler"
+$fpcPath = "fpc"
 $pas2js = "pas2js"
 
 # New: verify required paths exist (fail fast)
