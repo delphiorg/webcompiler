@@ -5,7 +5,7 @@ $sourcesDir = "$demoDir/sources"
 $filesJson = "$demoDir/files.json"
 $lprFile = "$demoDir/webcompiler.lpr"
 $fpcPath = "fpc"
-$pas2jsPath = "pas2js"
+$pas2jsRepo = "pas2js"
 
 # --- Compiler Download Logic ---
 
@@ -98,7 +98,7 @@ $params = @(
     "-Fu$fpcPath/packages/fcl-passrc/src",
     "-Fu$fpcPath/packages/pastojs/src",
     "-Fu$fpcPath/packages/fcl-js/src",
-    "-Fu$pas2jsPath/packages/*/src",
+    "-Fu$pas2jsRepo/packages/*/src",
     $lprFile
 )
 

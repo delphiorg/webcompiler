@@ -17,6 +17,11 @@ jobs:
       with:
         submodules: recursive
 
+    - name: Force Submodule Update
+      run: |
+        git submodule sync --recursive
+        git submodule update --init --force --recursive
+
     - name: Setup Python
       uses: actions/setup-python@v4
       with:
@@ -30,21 +35,32 @@ jobs:
         echo "Extracting..."
         unzip -q pas2js.zip -d compiler_dist
         
-        # Locate the binary (it might be in a subdir like pas2js-linux-1.0.0/bin)
+        # Locate the binary recursively (handles variable root folder name in zip)
         PAS2JS_PATH=$(find compiler_dist -name "pas2js" -type f | head -n 1)
-        echo "Found binary at: $PAS2JS_PATH"
         
+        if [ -z "$PAS2JS_PATH" ]; then
+          echo "Error: pas2js binary not found in extracted files."
+          find compiler_dist
+          exit 1
+        fi
+        
+        echo "Found binary at: $PAS2JS_PATH"
         chmod +x "$PAS2JS_PATH"
+        
+        # Make it available to subsequent steps
         echo "PAS2JS_BIN=$PAS2JS_PATH" >> $GITHUB_ENV
 
     - name: Debug File Structure
       run: |
         echo "Listing FPC submodule content..."
-        ls -R fpc/utils/pas2js || echo "fpc/utils/pas2js not found"
+        ls -F fpc/utils/pas2js/ || echo "fpc/utils/pas2js not found"
+        
+        echo "Pas2JS binary environment var: $PAS2JS_BIN"
 
     - name: Build Project
       run: |
         chmod +x build.sh
+        # Pass the env var explicitly if needed, though $PAS2JS_BIN should be picked up
         ./build.sh
 
     - name: Verify Output
