@@ -1,6 +1,6 @@
 [submodule "fpc"]
 	path = fpc
-	url = https://gitlab.com/freepascal.org/fpc/source
+	url = https://gitlab.com/freepascal.org/fpc/source.git
 [submodule "pas2js"]
 	path = pas2js
 	url = https://gitlab.com/freepascal.org/fpc/pas2js.git
