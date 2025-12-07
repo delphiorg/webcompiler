@@ -11,7 +11,7 @@
       </Flags>
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
-      <Title Value="demowebcompiler"/>
+      <Title Value="webcompiler"/>
       <UseAppBundle Value="False"/>
       <ResourceType Value="res"/>
     </General>
@@ -31,7 +31,7 @@
     </RunParams>
     <Units Count="1">
       <Unit0>
-        <Filename Value="demowebcompiler.lpr"/>
+        <Filename Value="webcompiler.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
     </Units>
@@ -39,7 +39,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target FileExt=".js">
-      <Filename Value="demowebcompiler"/>
+      <Filename Value="webcompiler"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);../../compiler/utils/pas2js;../../compiler/packages/pastojs/src"/>
