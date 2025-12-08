@@ -164,7 +164,6 @@ begin
     Args.Add('-Tbrowser');
     Args.Add('-Jc');
     Args.Add('-Jirtl.js');
-    Args.Add('-O1');
     Args.Add('main.pp');
     
     try

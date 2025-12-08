@@ -71953,6 +71953,7 @@ rtl.module("program",["System","Classes","SysUtils","Web","JS","Types","webfilec
         args.Add("-Tbrowser");
         args.Add("-Jc");
         args.Add("-Jirtl.js");
+        args.Add("-O1");
         args.Add("main.pp");
         try {
           this.FCompiler.Run("","",args,true);
